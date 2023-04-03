@@ -36,6 +36,7 @@ void ReleaseList(void){
     while(pTmp!=NULL){
         pDelete = pTmp;
         pTmp = pTmp->next;
+        printf("free(%p)\n",pDelete);
         free(pDelete);
     }
     g_nSize = 0;
@@ -76,7 +77,28 @@ int InsertAtHead(const char *pszData){
 }
 
 int InsertAtTail(const char *pszData){
-    return 0;
+    NODE* pNewNode = (NODE*)malloc(sizeof(NODE));
+    memset(pNewNode, 0, sizeof(NODE));
+    strcpy(pNewNode->szData, pszData);
+
+    NODE* pCurrent = g_pHead;
+    // having a difficulty
+    // Wrong:while(pCurrent != g_pTail)
+    while(pCurrent->next->next != NULL){
+        pCurrent = pCurrent->next;
+    }
+    printf("g_pHead address: %p\n", g_pHead );
+    printf("g_pTail address: %p\n", g_pTail );
+    printf("pCurrent Address: %p\n", pCurrent );
+    printf("pNewNode Address: %p\n", pNewNode );
+
+
+    pCurrent->next = pNewNode;
+    pNewNode->next = g_pTail;
+    
+
+    g_nSize++;
+    return g_nSize;
 
 }
 
@@ -91,12 +113,18 @@ int GetLength(){
 }
 
 int main(){
+    // InitList();
+    // InsertAtHead("Test01");
+    // InsertAtHead("Test02");
+    // InsertAtHead("Test03");
+    // PrintList();
+    // ReleaseList();
+    puts("***************");
     InitList();
-    InsertAtHead("Test01");
-    InsertAtHead("Test02");
-    InsertAtHead("Test03");
+    InsertAtTail("BACKWARD-01");
+    InsertAtTail("BACKWARD-02");
+    InsertAtTail("BACKWARD-03");
     PrintList();
     ReleaseList();
-    PrintList();
     return 0;
 }
