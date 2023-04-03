@@ -39,6 +39,8 @@ void ReleaseList(void){
         free(pDelete);
     }
     g_nSize = 0;
+    g_pHead = NULL;
+    g_pTail = NULL;
 }
 
 void PrintList(void){
@@ -91,7 +93,10 @@ int GetLength(){
 int main(){
     InitList();
     InsertAtHead("Test01");
+    InsertAtHead("Test02");
+    InsertAtHead("Test03");
     PrintList();
     ReleaseList();
+    PrintList();
     return 0;
 }
