@@ -53,12 +53,31 @@ void PrintList(void){
 
 }
 
+
 NODE* FindNode(const char* pszData){
+    NODE* pCurrent = g_pHead->next;
+    NODE* pPrevious = g_pHead;
+    while(pCurrent->next != NULL){
+        // hard to remember strcmp
+        if (strcmp(pCurrent->szData, pszData)==0)
+            return pPrevious;
+        pCurrent = pCurrent->next;
+        pPrevious = pPrevious->next;
+    }
+    // The `previous node` should be returned because this is a single linked list 
     return NULL;
 }
 
 int DeletNode(const char* pszData){
-    NODE* pNode = FindNode(pszData);
+    NODE* pPrevious = FindNode(pszData);
+    if (pPrevious != NULL){
+        NODE* pDetete = pPrevious->next;
+        pPrevious->next = pPrevious->next->next;
+        free(pDetete);
+    }
+    else{
+        printf("There is no node having %s\n", pszData);
+    }
     return 0;
 }
 
@@ -87,15 +106,9 @@ int InsertAtTail(const char *pszData){
     while(pCurrent->next->next != NULL){
         pCurrent = pCurrent->next;
     }
-    printf("g_pHead address: %p\n", g_pHead );
-    printf("g_pTail address: %p\n", g_pTail );
-    printf("pCurrent Address: %p\n", pCurrent );
-    printf("pNewNode Address: %p\n", pNewNode );
-
 
     pCurrent->next = pNewNode;
     pNewNode->next = g_pTail;
-    
 
     g_nSize++;
     return g_nSize;
@@ -113,17 +126,26 @@ int GetLength(){
 }
 
 int main(){
-    // InitList();
-    // InsertAtHead("Test01");
-    // InsertAtHead("Test02");
-    // InsertAtHead("Test03");
-    // PrintList();
+    InitList();
+    InsertAtHead("Test01");
+    InsertAtHead("Test02");
+    InsertAtHead("Test03");
+    PrintList();
     // ReleaseList();
     puts("***************");
-    InitList();
+    // InitList();
     InsertAtTail("BACKWARD-01");
     InsertAtTail("BACKWARD-02");
     InsertAtTail("BACKWARD-03");
+    printf("size of list: %d\n", GetSize());
+    puts("***************");
+    printf("found: %p\n",FindNode("BACKWARD-02"));
+    PrintList();
+    DeletNode("BACKWARD-02");
+    puts("***************");
+    PrintList();
+    DeletNode("Test01");
+    puts("***************");
     PrintList();
     ReleaseList();
     return 0;
