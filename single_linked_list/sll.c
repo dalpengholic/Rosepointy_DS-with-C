@@ -78,6 +78,7 @@ int DeletNode(const char* pszData){
     else{
         printf("There is no node having %s\n", pszData);
     }
+    g_nSize--;
     return 0;
 }
 
