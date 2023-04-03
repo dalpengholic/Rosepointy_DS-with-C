@@ -15,6 +15,37 @@ typedef struct NODE {
     struct NODE* next;
 } NODE;
 
+void InitList(){
+
+}
+
+void ReleaseList(){
+
+}
+
+void PrintList(){
+
+}
+
+void FindNode(){
+
+}
+
+void DeletNode(){
+
+}
+
+void InsertAtHead(){
+
+}
+
+void InsertAtTail(){
+
+}
+
+void GetLength(){
+    
+}
 
 int main(){
     return 0;
