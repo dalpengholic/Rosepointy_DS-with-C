@@ -1,12 +1,5 @@
 #include <stdio.h>
-
-// Functions 
-// InitList() / ReleaseList()
-// PrintList()
-// FindNode()
-// DeletNode()
-// InsertAtHead()/ InsertAtTail()
-// GetLength()
+#include <malloc.h>
 
 typedef struct NODE {
     // data
@@ -15,38 +8,61 @@ typedef struct NODE {
     struct NODE* next;
 } NODE;
 
-void InitList(){
+int g_nSize;
+NODE* g_pHead;
+NODE* g_pTail;
 
+
+
+
+void InitList(){
+    g_pHead = (NODE*)malloc(sizeof(NODE));
+    g_pTail = (NODE*)malloc(sizeof(NODE));
+    g_nSize = 0;
 }
 
 void ReleaseList(){
-
+     free(g_pHead);
+     free(g_pTail);
+     g_nSize = 0;
 }
 
 void PrintList(){
 
-}
-
-void FindNode(){
 
 }
 
-void DeletNode(){
+NODE* FindNode(const char* pszData){
+    return NULL;
+}
+
+int DeletNode(const char* pszData){
+    NODE* pNode = FindNode(pszData);
+    return 0;
+}
+
+int InsertAtHead(const char *pszData){
+    return 0;
 
 }
 
-void InsertAtHead(){
+int InsertAtTail(const char *pszData){
+    return 0;
 
 }
 
-void InsertAtTail(){
+int GetSize(void){
 
+    return g_nSize;
 }
 
-void GetLength(){
-    
+int GetLength(){
+    return GetSize();
+
 }
 
 int main(){
+    InitList();
+    ReleaseList();
     return 0;
 }
