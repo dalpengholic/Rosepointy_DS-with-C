@@ -53,9 +53,21 @@ void PrintList(void){
         pCurrent->prev, pCurrent->szData, pCurrent->next);
         pCurrent = pCurrent->next;
     }
+    printf("[size of array]: %d\n", g_nSize);
 
 }
 NODE* FindNode(const char* pszData){
+    NODE* pCurrent = g_pHead;
+    while(pCurrent != NULL){
+        if (strcmp(pszData, pCurrent->szData) == 0){
+            printf("Found[%p]: %p ,%s, %p \n",pCurrent, 
+            pCurrent->prev, pCurrent->szData, pCurrent->next);  
+            return pCurrent;
+        }
+        // I forgot adding the following line
+        else
+            pCurrent = pCurrent->next;
+    }    
     return NULL;
 
 }
@@ -67,7 +79,45 @@ int DeleteNode(const char* pszData){
 int InsertBefore(const char* pszData){
     return 0;
 }
-int InsertAfter(const char* pszData){
+int InsertAfter(const char* pszData, NODE* pTarget){
+    // find a location with FindNode
+    // create a new node
+    // init the new node
+    // organize pointers 
+
+    
+    NODE* pNewNode = (NODE*)malloc(sizeof(NODE));
+    memset(pNewNode, 0, sizeof(NODE));
+    strcpy(pNewNode->szData, pszData);
+
+    pNewNode->next = pTarget->next;
+    pNewNode->prev = pTarget;
+
+    pTarget->next->prev = pNewNode;
+    pTarget->next = pNewNode;
+    g_nSize++;
+    return 0;
+}
+
+int InsertAtHead(const char* pszData){
+    InsertAfter(pszData, g_pHead);
+    
+    // NODE* pCurrent = g_pHead;
+
+    // NODE* pNewNode = (NODE*)malloc(sizeof(NODE));
+    // memset(pNewNode, 0, sizeof(NODE));
+    // strcpy(pNewNode->szData, pszData);
+
+    // pNewNode->next = g_pHead->next;
+    // pNewNode->prev = g_pHead;
+
+    // g_pHead->next->prev = pNewNode;
+    // g_pHead->next = pNewNode;
+    // g_nSize++;
+    return 0;
+}
+
+int InsertAtTail(){
     return 0;
 }
 
@@ -77,6 +127,14 @@ int GetSize(){
 
 int main(){
     InitList();
+    InsertAtHead("TEST-H-1");
+    InsertAtHead("TEST-H-2");
+    InsertAtHead("TEST-H-3");
+    printf("find node %p\n", FindNode("TEST-H-2"));
+    printf("size of list: %d\n", GetSize());
+    PrintList();
+
+    InsertAfter("Insert-1", FindNode("TEST-H-2"));
     PrintList();
     ReleaseList();
     return 0;
