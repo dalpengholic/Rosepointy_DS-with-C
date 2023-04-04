@@ -76,7 +76,24 @@ int DeleteNode(const char* pszData){
     return 0;
 }
 
-int InsertBefore(const char* pszData){
+int InsertBefore(const char* pszData, NODE* pTarget){
+    // find a location with FindNode
+    // create a new node
+    // init the new node
+    // organize pointers 
+
+    
+    NODE* pNewNode = (NODE*)malloc(sizeof(NODE));
+    memset(pNewNode, 0, sizeof(NODE));
+    strcpy(pNewNode->szData, pszData);
+
+    pNewNode->next = pTarget;
+    pNewNode->prev = pTarget->prev;
+
+    pTarget->prev->next = pNewNode;
+    pTarget->prev = pNewNode;
+
+    g_nSize++;
     return 0;
 }
 int InsertAfter(const char* pszData, NODE* pTarget){
@@ -117,7 +134,8 @@ int InsertAtHead(const char* pszData){
     return 0;
 }
 
-int InsertAtTail(){
+int InsertAtTail(const char* pszData){
+    InsertBefore(pszData, g_pTail);
     return 0;
 }
 
@@ -132,10 +150,17 @@ int main(){
     InsertAtHead("TEST-H-3");
     printf("find node %p\n", FindNode("TEST-H-2"));
     printf("size of list: %d\n", GetSize());
-    PrintList();
-
     InsertAfter("Insert-1", FindNode("TEST-H-2"));
     PrintList();
+
+    InsertAtTail("TEST-B-1");
+    InsertAtTail("TEST-B-2");
+    InsertAtTail("TEST-B-3");
+    InsertBefore("Insert-2", FindNode("TEST-B-2"));
+    puts("***************");
+    PrintList();
+
     ReleaseList();
+    PrintList();
     return 0;
 }
