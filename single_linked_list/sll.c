@@ -137,10 +137,19 @@ int StackPop(){
     NODE* pPopTarget = g_pHead->next;
     strcpy(g_szPopData, pPopTarget->szData);
     DeletNode(g_pHead->next->szData);
-    // g_pHead->next = pPopTarget->next;
-    // free(pPopTarget);
     return 0;
 }
+
+int Enqueue(const char *pszData){
+    InsertAtTail(pszData);
+    return 0;
+}
+
+int Dequeue(){
+    StackPop();
+    return 0;
+}
+
 
 int main(){
     InitList();
@@ -174,6 +183,14 @@ int main(){
     PrintList();
     StackPop();
     printf("%s\n",g_szPopData);
+
+    puts("***************");
+    Enqueue("FromEnqueue-1");
+    Enqueue("FromEnqueue-2");
+    PrintList();
+    Dequeue();
+    printf("after dequeue %s\n",g_szPopData);
+    PrintList();
     ReleaseList();
 
    
