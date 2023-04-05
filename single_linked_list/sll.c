@@ -12,13 +12,14 @@ typedef struct NODE {
 int g_nSize;
 NODE* g_pHead;
 NODE* g_pTail;
-
+char g_szPopData[64];
 
 void InitList(void){
     g_pHead = (NODE*)malloc(sizeof(NODE));
     g_pTail = (NODE*)malloc(sizeof(NODE));
     
     g_nSize = 0;
+    memset(g_szPopData, 0, sizeof(char)*64);
     memset(g_pHead, 0, sizeof(NODE));
     memset(g_pTail, 0, sizeof(NODE));
 
@@ -40,6 +41,7 @@ void ReleaseList(void){
         free(pDelete);
     }
     g_nSize = 0;
+    memset(g_szPopData, 0, sizeof(char)*64);
     g_pHead = NULL;
     g_pTail = NULL;
 }
@@ -117,13 +119,27 @@ int InsertAtTail(const char *pszData){
 }
 
 int GetSize(void){
-
     return g_nSize;
 }
 
 int GetLength(){
     return GetSize();
+}
 
+int StackPut(const char *pszData){
+    InsertAtHead(pszData);
+    return 0;
+}
+
+//Pop Location is always the next of head node
+//Time spent for return type
+int StackPop(){
+    NODE* pPopTarget = g_pHead->next;
+    strcpy(g_szPopData, pPopTarget->szData);
+    DeletNode(g_pHead->next->szData);
+    // g_pHead->next = pPopTarget->next;
+    // free(pPopTarget);
+    return 0;
 }
 
 int main(){
@@ -148,6 +164,18 @@ int main(){
     DeletNode("Test01");
     puts("***************");
     PrintList();
+
+    StackPut("FromStack-1");
+    StackPut("FromStack-2");
+    StackPut("FromStack-3");
+    PrintList();
+    StackPop();
+    printf("%s\n",g_szPopData);
+    PrintList();
+    StackPop();
+    printf("%s\n",g_szPopData);
     ReleaseList();
+
+   
     return 0;
 }
