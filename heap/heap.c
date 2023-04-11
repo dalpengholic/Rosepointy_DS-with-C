@@ -33,6 +33,15 @@ void Shiftup(int* arr, int index){
 }
 // Heapadd + Shiftup: 15분
 
+int heapRemove(HEAP* p){
+    // 저장
+    int heap_max = p->pArr[0];
+    // Replace
+    p->pArr[0] = p->pArr[p->size-1];
+    p->size--;
+    Shiftdown(p->pArr, 0, p->size);
+    return heap_max; 
+}
 
 void Heapify(HEAP* p, int* arr, int size){
     //Init
@@ -90,6 +99,19 @@ int main(){
         for (int i=0; i<10; i++)
         printf("%d,",array[i]);
     puts("*************");
+
+    int mymax = heapRemove(&heap);
+    printf("%d\n", mymax);
+    puts("*************");
+
+    mymax = heapRemove(&heap);
+    printf("%d\n", mymax);
+    puts("*************");
+
+    for (int i=0; i<9; i++)
+        printf("%d,",array[i]);
+    puts("*************");
+
 
     
     return 0;
