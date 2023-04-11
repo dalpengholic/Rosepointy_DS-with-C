@@ -11,6 +11,9 @@ NODE* g_Head;
 NODE* g_Tail;
 int g_nSize;
 
+void InsertAfter(const char*, const char*);
+void InsertBefore(const char*, const char*);
+
 void InitList(){
     g_Head = (NODE*)malloc(sizeof(NODE));
     g_Tail = (NODE*)malloc(sizeof(NODE));
@@ -49,7 +52,10 @@ void PrintList(){
 }
 // 16min30sec
 
+// 리팩토링할때 더미 헤드 앞에는 아무것도 없음
+// 
 void InsertAtHead(const char* pszData){
+
     NODE* pNewNode = (NODE*)malloc(sizeof(NODE));
     memset(pNewNode, 0, sizeof(NODE));
     strcpy(pNewNode->szData, pszData);
@@ -61,19 +67,20 @@ void InsertAtHead(const char* pszData){
 }
 
 void InsertAtTail(const char* pszData){
-    NODE* pNewNode = (NODE*)malloc(sizeof(NODE));
-    memset(pNewNode, 0, sizeof(NODE));
-    strcpy(pNewNode->szData, pszData);
+    InsertBefore("Dummy Tail", pszData);
+    // NODE* pNewNode = (NODE*)malloc(sizeof(NODE));
+    // memset(pNewNode, 0, sizeof(NODE));
+    // strcpy(pNewNode->szData, pszData);
 
-    NODE* pCurrent = g_Head;
-    while (pCurrent->next != g_Tail){
-        pCurrent = pCurrent->next;
-    }
+    // NODE* pCurrent = g_Head;
+    // while (pCurrent->next != g_Tail){
+    //     pCurrent = pCurrent->next;
+    // }
 
-    pNewNode->next = g_Tail;
-    pCurrent->next = pNewNode;
+    // pNewNode->next = g_Tail;
+    // pCurrent->next = pNewNode;
 
-    g_nSize++;    
+    // g_nSize++;    
 }
 // 30min
 
@@ -106,6 +113,7 @@ void DeleteNode(const char* pszData){
     g_nSize--;
 }
 
+// Error after refactoring
 void InsertAfter(const char* pszTarget, const char* pszData){
     NODE* pNewNode = (NODE*)malloc(sizeof(NODE));
     memset(pNewNode, 0, sizeof(NODE));
@@ -140,6 +148,7 @@ void GetSize(){
 }
 
 
+// 총1hr14min
 int main(){
     InitList();
     PrintList();
