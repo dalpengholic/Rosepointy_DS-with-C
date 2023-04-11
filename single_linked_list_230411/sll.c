@@ -77,21 +77,66 @@ void InsertAtTail(const char* pszData){
 }
 // 30min
 
-NODE* FindNode(){
+NODE* FindNode(const char* pszData){
+    NODE* pCurrent = g_Head->next;
+    NODE* pPrev = g_Head;
+    while (pCurrent != NULL){
+        if (strcmp(pCurrent->szData, pszData) == 0){
+            printf("Found(): [%p], %s, %p\n", pCurrent, pCurrent->szData,
+        pCurrent->next);
+            return pPrev;
+        }     
+        else{
+        pCurrent = pCurrent->next;
+        pPrev = pPrev->next;
+        }
+    }
     return NULL;
 }
 
 
-void DeleteNode(){
+void DeleteNode(const char* pszData){
+    NODE* pPrevDelete = FindNode(pszData);
+    NODE* pDelete = pPrevDelete->next;
 
+    pPrevDelete->next = pDelete->next;
+    printf("DeleteNode(): Delete %p, %s\n", pDelete, pDelete->szData);
+    free(pDelete);
+
+    g_nSize--;
 }
 
-void InsertAfter(){
+void InsertAfter(const char* pszTarget, const char* pszData){
+    NODE* pNewNode = (NODE*)malloc(sizeof(NODE));
+    memset(pNewNode, 0, sizeof(NODE));
+    strcpy(pNewNode->szData, pszData);
 
+
+    NODE* pPrevTarget = FindNode(pszTarget);
+    NODE* pTarget = pPrevTarget->next;
+
+    pNewNode->next = pTarget->next;
+    pTarget->next = pNewNode;
+
+    g_nSize++;
 }
 
-void InsertBefore(){
+void InsertBefore(const char* pszTarget, const char* pszData){
+    NODE* pNewNode = (NODE*)malloc(sizeof(NODE));
+    memset(pNewNode, 0, sizeof(NODE));
+    strcpy(pNewNode->szData, pszData);
 
+    NODE* pPrevTarget = FindNode(pszTarget);
+    NODE* pTarget = pPrevTarget->next;
+    
+    pNewNode->next = pPrevTarget->next;
+    pPrevTarget->next = pNewNode;
+    g_nSize++;
+}
+// 59min
+
+void GetSize(){
+    printf("Number of Nodes: %d\n", g_nSize);
 }
 
 
@@ -107,7 +152,21 @@ int main(){
     InsertAtTail("IAT-1");
     InsertAtTail("IAT-2");
     InsertAtTail("IAT-3");
+    FindNode("IAT-1");
+    puts("***************");
     PrintList();
+    GetSize();
+    DeleteNode("IAT-1");
+    puts("***************");
+    PrintList();
+    GetSize();
+    InsertAfter("IAH-3", "test-1");
+    InsertAfter("IAH-3", "test-2");
+    InsertBefore("IAH-3", "test-3");
+    InsertBefore("IAH-3", "test-4");
+    puts("***************");
+    PrintList();
+    GetSize();
     ReleaseList();
     return 0;
 }
