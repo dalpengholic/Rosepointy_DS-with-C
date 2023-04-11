@@ -10,6 +10,30 @@ typedef struct HEAP{
 
 
 void Shiftdown(int*, int, int);
+void Shiftup(int*, int);
+
+void HeapAdd(HEAP* p, int value){
+    // Add at last
+    p->pArr[p->size] = value;
+    // Call Shiftup. 싸이즈만 들어가면 됨
+    Shiftup(p->pArr, p->size); 
+    p->size++;
+}
+
+void Shiftup(int* arr, int index){
+    // Parent index
+    int parent_index = (index-1)/2;
+    // 아래 재귀호출 틀림
+    if (parent_index >= 0 && arr[parent_index] < arr[index]){
+        int temp = arr[parent_index];
+        arr[parent_index] = arr[index];
+        arr[index] = temp;
+        Shiftup(arr, parent_index);
+    }
+}
+// Heapadd + Shiftup: 15분
+
+
 void Heapify(HEAP* p, int* arr, int size){
     //Init
     p->pArr = arr;
@@ -58,6 +82,12 @@ int main(){
 
     Heapify(&heap, array, 9);
     for (int i=0; i<9; i++)
+        printf("%d,",array[i]);
+    puts("*************");
+
+
+    HeapAdd(&heap, 10);
+        for (int i=0; i<10; i++)
         printf("%d,",array[i]);
     puts("*************");
 
