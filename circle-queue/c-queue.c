@@ -19,32 +19,39 @@ void InitCqueue(Cqueue *p , int size){
 }
 
 void Enqueue(Cqueue *p, int ndata){
-    p->pArr[p->rear] = ndata;
-    p->rear++;
     if (p->count < p->capacity){
+        p->pArr[p->rear] = ndata;
+        p->rear++;
         p->count++;
+        if (p->rear >= p->capacity){
+            p->rear = 0;
+        }
     }
-
-    if (p->rear >= p->capacity){
-        p->rear = 0;
-    }
+    else
+        printf("The circular queue is full (count/capacity:%d/%d).You need to dequeue first.\n", 
+        p->count, p->capacity);
 }
 
 int Dequeue(Cqueue *p){
-    int temp = p->pArr[p->front];
-    p->front++;
-    if (p->count > 0){
-        p->count--;
+    if (p->count >0){
+        int temp = p->pArr[p->front];
+        p->front++;
+        if (p->count > 0){
+            p->count--;
+        }
+        if (p->front >= p->capacity){
+            p->front = 0;
+        }
+        printf("Dequeue(): %d\n", temp);
+        return temp;
     }
-
-
-    if (p->front >= p->capacity){
-        p->front = 0;
+    else{
+        printf("The circular queue is empty (count/capacity:%d/%d).\n", 
+        p->count, p->capacity);
     }
-    printf("Dequeue(): %d\n", temp);
-
-    return temp;
 }
+
+    
 
 void PrintCqueue(Cqueue *p){
     int index;
@@ -67,14 +74,16 @@ int main(){
     Enqueue(&queue, 77);
     Enqueue(&queue, 100);
     PrintCqueue(&queue);
+    Enqueue(&queue, 200);
     puts("****************");
     Dequeue(&queue);
     Dequeue(&queue);
     Enqueue(&queue, 300);
     Enqueue(&queue, 400);
-    Enqueue(&queue, 500);
+
     puts("****************");
     PrintCqueue(&queue);
+    Enqueue(&queue, 500);
 
 
 
