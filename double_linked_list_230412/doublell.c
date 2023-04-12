@@ -67,7 +67,6 @@ NODE* FindNode(const char* pszData){
     return NULL;
 }
 
-// 싱글처럼 여기서도 에러
 void InsertAfter(const char* pTargetData, const char* pszData){
     // Create and init new node
     // Find Target node with FindNode
