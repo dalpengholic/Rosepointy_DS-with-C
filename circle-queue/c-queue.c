@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <malloc.h>
 
+// 만일 공간이 다 차면 새로운 메모리 생성 및 기존파일내용 복사 및 기존내용 삭제를 한다면
 typedef struct Cqueue{
     int *pArr;
     int front;
@@ -84,6 +85,12 @@ int main(){
     puts("****************");
     PrintCqueue(&queue);
     Enqueue(&queue, 500);
+    Dequeue(&queue);
+    Dequeue(&queue);
+    Dequeue(&queue);
+    Dequeue(&queue);
+    Dequeue(&queue);
+    Dequeue(&queue);
 
 
 
